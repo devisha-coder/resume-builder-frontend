@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 function ResumeForm({ setResumeData }) {
   const [formData, setFormData] = useState({
@@ -17,11 +18,28 @@ function ResumeForm({ setResumeData }) {
   };
 
   // HANDLE SUBMIT
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // SEND DATA TO PARENT
-    setResumeData(formData);
+    try {
+      // SAVE TO MONGODB
+      const response = await axios.post(
+        "https://resume-builder-backend-ikxq.onrender.com/api/resume",
+        formData
+      );
+
+      console.log(response.data);
+
+      // SHOW PREVIEW
+      setResumeData(formData);
+
+      alert("Resume Saved Successfully");
+
+    } catch (error) {
+      console.log(error);
+
+      alert("Error Saving Resume");
+    }
   };
 
   return (
@@ -58,7 +76,7 @@ function ResumeForm({ setResumeData }) {
         />
 
         <button type="submit">
-          Show Preview
+          Save Resume
         </button>
       </form>
     </div>
