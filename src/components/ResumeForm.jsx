@@ -8,7 +8,6 @@ function ResumeForm({ setResumeData }) {
     skills: "",
   });
 
-  // HANDLE INPUT CHANGE
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,12 +15,35 @@ function ResumeForm({ setResumeData }) {
     });
   };
 
-  // HANDLE SUBMIT
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // SEND DATA TO PARENT
-    setResumeData(formData);
+    try {
+      const res = await fetch(
+        "https://resume-builder-backend-ikxq.onrender.com/api/resume",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.ok) {
+        alert(data.message || "Resume save failed");
+        return;
+      }
+
+      setResumeData(formData);
+      alert("Resume Saved Successfully");
+    } catch (error) {
+      console.log(error);
+      alert("Error Saving Resume");
+    }
   };
 
   return (
@@ -29,37 +51,12 @@ function ResumeForm({ setResumeData }) {
       <h2>Resume Form</h2>
 
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          onChange={handleChange}
-        />
+        <input type="text" name="name" placeholder="Enter Name" onChange={handleChange} />
+        <input type="email" name="email" placeholder="Enter Email" onChange={handleChange} />
+        <input type="tel" name="phone" placeholder="Enter Phone" onChange={handleChange} />
+        <input type="text" name="skills" placeholder="Enter Skills" onChange={handleChange} />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          onChange={handleChange}
-        />
-
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Enter Phone"
-          onChange={handleChange}
-        />
-
-        <input
-          type="text"
-          name="skills"
-          placeholder="Enter Skills"
-          onChange={handleChange}
-        />
-
-        <button type="submit">
-          Show Preview
-        </button>
+        <button type="submit">Test Button</button>
       </form>
     </div>
   );
