@@ -56,7 +56,7 @@ function ResumeForm({ setResumeData }) {
         <input type="tel" name="phone" placeholder="Enter Phone" onChange={handleChange} />
         <input type="text" name="skills" placeholder="Enter Skills" onChange={handleChange} />
 
-        <button type="submit">Save Resume</button>
+        <button type="submit">Test Button</button>
       </form>
     </div>
   );
