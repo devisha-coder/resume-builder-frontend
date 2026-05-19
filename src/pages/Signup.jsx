@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 
 function Signup() {
   const navigate = useNavigate();
@@ -18,24 +17,13 @@ function Signup() {
     });
   };
 
-  const handleSignup = async (e) => {
-  e.preventDefault();
+  const handleSignup = (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await axios.post(
-      "http://localhost:5000/api/auth/signup",
-      signupData
-    );
+    console.log(signupData);
 
-    console.log(response.data);
-
-    alert("Signup Successful");
-  } catch (error) {
-    console.log(error);
-
-    alert("Signup Failed");
-  }
-};
+    navigate("/");
+  };
 
   return (
     <div className="page">
